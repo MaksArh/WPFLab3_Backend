@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import {SequelizeModule} from "@nestjs/sequelize";
 import {User} from "./users/users.model";
+import {ScheduleModule} from "@nestjs/schedule";
 
 @Module({
   imports: [SequelizeModule.forRoot({
@@ -14,6 +15,7 @@ import {User} from "./users/users.model";
     models: [User],
     autoLoadModels: true
   }),
+    ScheduleModule.forRoot(),
     UsersModule],
   controllers: [],
   providers: [],
