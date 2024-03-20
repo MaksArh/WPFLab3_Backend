@@ -9,12 +9,16 @@ export class RolesService {
     }
 
     async createRole(dto: CreateRoleDto): Promise<Role> {
-        const existingRole = await this.roleRepository.findOne({where: {value: dto.value}});
-        if (existingRole) {
-            throw new NotFoundException(`Role with value ${dto.value} already exists.`);
-        }
+        try {
+            const existingRole = await this.roleRepository.findOne({where: {value: dto.value}});
+            if (existingRole) {
+                throw new NotFoundException(`Role with value ${dto.value} already exists.`);
+            }
 
-        return this.roleRepository.create(dto);
+            return this.roleRepository.create(dto);
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     async getRoleByValue(value: string): Promise<Role> {

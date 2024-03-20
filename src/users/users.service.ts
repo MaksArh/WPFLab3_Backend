@@ -11,30 +11,41 @@ export class UsersService {
                 private readonly roleService: RolesService){}
 
     async createUser(dto: CreateUserDto) {
-        console.log(dto)
-        const user = await this.userRepository.create(dto);
-        return user;
+        try {
+            const user = await this.userRepository.create(dto);
+            return user;
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     async addRole(dto: AddRoleDto): Promise<User> {
-        const user = await this.userRepository.findByPk(dto.userId);
-        const role = await this.roleService.getRoleByValue(dto.value);
+        try {
+            const user = await this.userRepository.findByPk(dto.userId);
+            const role = await this.roleService.getRoleByValue(dto.value);
 
-        if (!role || !user) {
-            throw new NotFoundException('User or Role not found');
+            if (!role || !user) {
+                throw new NotFoundException('User or Role not found');
+            }
+
+            await user.$add('role', role.id);
+            return user;
+        } catch (e) {
+            console.log(e)
         }
-
-        await user.$add('role', role.id);
-        return user;
     }
 
     async login(dto: CreateUserDto) {
-        let name = dto.name;
-        const user = await this.userRepository.findOne({rejectOnEmpty: undefined, where: {name}});
-        if (!user) {
-            return false
-        } else {
-            return true
+        try {
+            let name = dto.name;
+            const user = await this.userRepository.findOne({rejectOnEmpty: undefined, where: {name}});
+            if (!user) {
+                return false
+            } else {
+                return true
+            }
+        } catch (e) {
+            console.log(e)
         }
     }
 }

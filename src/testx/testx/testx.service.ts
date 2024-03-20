@@ -8,15 +8,27 @@ export class TestxService {
     constructor(@InjectModel(Testx) private readonly testRepository: typeof Testx) {}
 
     async create(dto: CreateTestxDto){
-        await this.testRepository.create(dto)
+        try {
+            await this.testRepository.create(dto)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     async getAll(){
-        return await this.testRepository.findAll()
+        try {
+            return await this.testRepository.findAll()
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     async getOne(participantId: number):Promise<any>{
-        const test = await this.testRepository.findOne({ where: { participantId } } as any);
-        return test;
+        try {
+            const test = await this.testRepository.findOne({ where: { participantId } } as any);
+            return test;
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
