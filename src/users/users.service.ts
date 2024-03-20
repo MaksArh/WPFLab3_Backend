@@ -37,13 +37,14 @@ export class UsersService {
 
     async login(dto: CreateUserDto) {
         try {
-            let name = dto.name;
-            const user = await this.userRepository.findOne({rejectOnEmpty: undefined, where: {name}});
+            let mail = dto.mail;
+            const user = await this.userRepository.findOne({rejectOnEmpty: undefined, where: {mail}});
             if (!user) {
                 return false
-            } else {
+            } else if (dto.password==user.password) {
                 return true
             }
+            return false
         } catch (e) {
             console.log(e)
         }

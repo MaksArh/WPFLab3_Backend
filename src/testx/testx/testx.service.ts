@@ -25,7 +25,7 @@ export class TestxService {
 
     async getOne(participantId: number):Promise<any>{
         try {
-            const test = await this.testRepository.findOne({ where: { participantId } } as any);
+            const test = await this.testRepository.findOne({rejectOnEmpty: undefined, where: { participantId } } );
             return test;
         } catch (e) {
             console.log(e)

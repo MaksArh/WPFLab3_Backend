@@ -2,6 +2,7 @@ import {Column, DataType, Table, Model} from "sequelize-typescript";
 
 interface UserCreationAttrs {
     name: string;
+    mail: string;
     password: string;
 }
 
@@ -11,6 +12,8 @@ export class User extends Model<User, UserCreationAttrs> {
     id: number;
     @Column({type: DataType.STRING, allowNull: false})
     name: string;
+    @Column({type: DataType.STRING, allowNull: false, unique:true})
+    mail: string;
     @Column({type: DataType.STRING, allowNull: false})
     password: string;
 }
